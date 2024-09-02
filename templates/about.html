@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre el Proyecto</title>
+    <!-- Cargar Material Design 3 y las fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Vincular al archivo CSS externo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script type="importmap">
+        {
+            "imports": {
+                "@material/web/": "https://esm.run/@material/web/"
+            }
+        }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+</head>
+
+<body>
+
+    <!-- Menú de Navegación -->
+    <nav>
+        <ul>
+            <li><md-filled-button onclick="window.location.href='{{ url_for('index') }}'">Inicio</md-filled-button></li>
+            <li><md-filled-button onclick="window.location.href='{{ url_for('about') }}'">Sobre el Proyecto</md-filled-button></li>
+            <li><md-filled-button onclick="window.location.href='{{ url_for('chatbot') }}'">Chatbot</md-filled-button></li>
+        </ul>
+    </nav>
+
+    <!-- Sección "Sobre el Proyecto" -->
+    <section id="about">
+        <div class="about-container">
+            <div class="about-text">
+                <h2 class="md-typescale-title-large">Sobre el Proyecto</h2>
+                <p class="md-typescale-body-medium">Este proyecto fue desarrollado para facilitar la interacción con los usuarios a través de un chatbot inteligente. Utilizando modelos de lenguaje natural y bases de datos vectoriales, nuestro objetivo es proporcionar respuestas rápidas y precisas a cualquier consulta que tengas.</p>
+                <p class="md-typescale-body-medium">El proyecto fue desarrollado por Luis Burbano, Sebastian Torres y Cesar Loor, en el marco de la materia "Aplicaciones Basadas en el Conocimiento".</p>
+            </div>
+           
+        </div>
+        <div class="about-image">
+            <img src="../static/chat.png" alt="Imagen del Proyecto" >
+        </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>&copy; 2024 Desarrollado por <a href="#">Luis Burbano, Sebastian Torres y Cesar Loor</a>. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+
+</html>

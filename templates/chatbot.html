@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre el Proyecto</title>
+    <!-- Cargar Material Design 3 y las fuentes -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Vincular al archivo CSS externo -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script type="importmap">
+        {
+            "imports": {
+                "@material/web/": "https://esm.run/@material/web/"
+            }
+        }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+</head>
+
+<body>
+
+    <!-- Menú de Navegación -->
+   
+    <!-- Menú de Navegación -->
+    <nav>
+        <ul>
+            <li><md-filled-button onclick="window.location.href='{{ url_for('index') }}'">Inicio</md-filled-button></li>
+            <li><md-filled-button onclick="window.location.href='{{ url_for('about') }}'">Sobre el Proyecto</md-filled-button></li>
+            <li><md-filled-button onclick="window.location.href='{{ url_for('chatbot') }}'">Chatbot</md-filled-button></li>
+        </ul>
+    </nav>
+    <!-- Sección del Chatbot -->
+    <section id="chatbot-section">
+        <div id="logo-container">
+            <!-- Aquí puedes colocar tu logo -->
+            <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" width="400">
+        </div>
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="chat-input">
+                <input id="input-field" type="text" placeholder="Escribe tu mensaje aquí..." />
+                <md-filled-button id="send-button">Chatbot</md-filled-button>
+                
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.getElementById('send-button').addEventListener('click', async () => {
+            const inputField = document.getElementById('input-field');
+            const question = inputField.value.trim();
+            if (question === '') return;
+
+            addMessage(question, 'user-message');
+            inputField.value = '';
+
+            const chatBox = document.getElementById('chat-box');
+            const chatHistory = Array.from(chatBox.getElementsByClassName('message')).map(msg => ({
+                role: msg.classList.contains('user-message') ? 'user' : 'assistant',
+                content: msg.textContent
+            }));
+
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ pregunta: question, chat_history: chatHistory }),
+            });
+
+            const data = await response.json();
+            const answer = data.respuesta;
+            addMessage(answer, 'assistant-message');
+        });
+
+        function addMessage(message, type) {
+            const chatBox = document.getElementById('chat-box');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message', type);
+            messageElement.textContent = message;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+    </script>
+
+      <!-- Pie de página -->
+      <footer>
+        <p>&copy; 2024 Desarrollado por <a href="#">Luis Burbano, Sebastian Torres y Cesar Loor</a>. Todos los derechos reservados.</p>
+    </footer>
+
+</body>
+
+</html>
