@@ -18,6 +18,6 @@ Para las respuestas, se utilizan dos modelos de lenguaje de la biblioteca LangCh
 - chromadb
 - langchain
 
-#Autores
+# Autores
 Luis Burbano, Sebastian Torres, Cesar Loor
 
